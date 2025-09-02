@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>UI Selector</title>
+  <meta name="viewport" content="width=600, initial-scale=1.0"/>
+  <style>
+    html, body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow: hidden;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .switcher-box {
+      display: flex;
+      gap: 36px;
+      border: 3px solid #8a2be2;
+      border-radius: 18px;
+      background: rgba(0,0,0,0.04);
+      box-shadow: 0 0 25px 0px #8a2be260;
+      padding: 42px 38px;
+      min-width: 460px;
+      min-height: 240px;
+      justify-content: center;
+      align-items: center;
+    }
+    .switcher-option {
+      background: white;
+      border-radius: 14px;
+      border: 2px solid #222;
+      min-width: 180px;
+      min-height: 200px;
+      box-sizing: border-box;
+      padding: 24px 20px 10px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: box-shadow 0.18s, border-color 0.18s;
+      box-shadow: 0 2px 12px 0px #00000014;
+      cursor: pointer;
+      outline: none;
+      position: relative;
+    }
+    .switcher-option.selected {
+      border-color: #8a2be2;
+      box-shadow: 0 0 0 3px #8a2be244;
+      background: #f9f7ff;
+    }
+    .switcher-label {
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: #222;
+      margin-top: 20px;
+      letter-spacing: 0.2px;
+      text-align: center;
+      user-select: none;
+    }
+    /* Icon styles */
+    .icon-mouse {
+      width: 64px; height: 64px;
+      display: block;
+    }
+    .icon-keyboard {
+      width: 64px; height: 64px;
+      display: block;
+    }
+    /* Nice focus for keyboard */
+    .switcher-option:focus {
+      border-color: #ff9800;
+      box-shadow: 0 0 0 3px #ff980044;
+    }
+  </style>
+</head>
+<body>
+  <div class="switcher-box">
+    <div class="switcher-option selected" id="mouseOption" tabindex="0">
+      <!-- Mouse SVG icon -->
+      <svg class="icon-mouse" viewBox="0 0 64 64" fill="none">
+        <circle cx="32" cy="36" r="20" stroke="#222" stroke-width="3"/>
+        <line x1="32" y1="36" x2="32" y2="56" stroke="#222" stroke-width="3"/>
+        <ellipse cx="32" cy="36" rx="9" ry="5" stroke="#222" stroke-width="2"/>
+        <path d="M15 16 Q35 0 55 25" stroke="#222" stroke-width="2" fill="none"/>
+      </svg>
+      <div class="switcher-label">Mouse UI</div>
+    </div>
+    <div class="switcher-option" id="keyboardOption" tabindex="0">
+      <!-- Keyboard SVG icon -->
+      <svg class="icon-keyboard" viewBox="0 0 64 64" fill="none">
+        <rect x="8" y="28" width="48" height="24" rx="5" stroke="#222" stroke-width="3"/>
+        <!-- Rows of keys -->
+        <rect x="12" y="32" width="40" height="5" rx="2" fill="#222" />
+        <rect x="12" y="39" width="40" height="5" rx="2" fill="#222" />
+        <rect x="12" y="46" width="40" height="5" rx="2" fill="#222" />
+        <path d="M16 24 Q32 10 57 35" stroke="#222" stroke-width="2" fill="none"/>
+      </svg>
+      <div class="switcher-label">Keyboard UI</div>
+    </div>
+  </div>
+  <script>
+    // UI logic: switching and execution
+    let selectedIndex = 0; // 0 = mouse, 1 = keyboard
+    const options = [
+      document.getElementById('mouseOption'),
+      document.getElementById('keyboardOption')
+    ];
+    function updateSelection() {
+      options.forEach((opt, i) => {
+        opt.classList.toggle('selected', i === selectedIndex);
+      });
+    }
+    // Keyboard navigation (left/right arrows, Enter)
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') {
+        selectedIndex = (selectedIndex + options.length - 1) % options.length;
+        updateSelection();
+      }
+      if (e.key === 'ArrowRight') {
+        selectedIndex = (selectedIndex + 1) % options.length;
+        updateSelection();
+      }
+      if (e.key === 'Tab') {
+        selectedIndex = (selectedIndex + 1) % options.length;
+        updateSelection();
+        e.preventDefault();
+      }
+      if (e.key === 'Enter') {
+        executeSelected();
+      }
+    });
+    // Mouse click selection
+    options.forEach((opt, i) => {
+      opt.addEventListener('click', () => {
+        selectedIndex = i;
+        updateSelection();
+        executeSelected();
+      });
+    });
+    // Execution logic (replace with your actual execution code)
+    function executeSelected() {
+      if (selectedIndex === 0) {
+        // Mouse UI selected
+        window.postMessage(JSON.stringify({action: "executeMouseUI"}), "*");
+      } else {
+        // Keyboard UI selected
+        window.postMessage(JSON.stringify({action: "executeKeyboardUI"}), "*");
+      }
+    }
+    // Initial selection
+    updateSelection();
+  </script>
+</body>
+</html>

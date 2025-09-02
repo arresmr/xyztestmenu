@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>UI Selector</title>
+  <title>XYZ MENU - UI Switcher</title>
   <meta name="viewport" content="width=600, initial-scale=1.0"/>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
     html, body {
       height: 100%;
       width: 100%;
@@ -20,90 +21,97 @@
       justify-content: center;
       height: 100vh;
     }
-    .switcher-box {
+    .menu-wrapper {
+      border-radius: 12px;
+      border: 1.5px solid rgba(138,43,226,0.4);
+      background: rgba(0,0,0,0.85);
+      box-shadow: 0 10px 30px 0px #8a2be260;
+      padding: 44px 36px;
+      min-width: 420px;
+      min-height: 210px;
       display: flex;
-      gap: 36px;
-      border: 3px solid #8a2be2;
-      border-radius: 18px;
-      background: rgba(0,0,0,0.04);
-      box-shadow: 0 0 25px 0px #8a2be260;
-      padding: 42px 38px;
-      min-width: 460px;
-      min-height: 240px;
+      gap: 32px;
       justify-content: center;
       align-items: center;
+      position: relative;
     }
     .switcher-option {
-      background: white;
-      border-radius: 14px;
-      border: 2px solid #222;
-      min-width: 180px;
-      min-height: 200px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      border: 2.5px solid rgba(138,43,226,0.3);
+      min-width: 160px;
+      min-height: 170px;
       box-sizing: border-box;
-      padding: 24px 20px 10px 20px;
+      padding: 22px 18px 14px 18px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      transition: box-shadow 0.18s, border-color 0.18s;
-      box-shadow: 0 2px 12px 0px #00000014;
+      transition: box-shadow 0.18s, border-color 0.18s, background 0.18s;
       cursor: pointer;
       outline: none;
       position: relative;
+      box-shadow: 0 2px 12px 0px #8a2be214;
+      user-select: none;
     }
     .switcher-option.selected {
-      border-color: #8a2be2;
+      border-color: rgb(138,43,226);
       box-shadow: 0 0 0 3px #8a2be244;
-      background: #f9f7ff;
+      background: rgba(138,43,226,0.18);
     }
     .switcher-label {
-      font-size: 1.4rem;
-      font-weight: 500;
-      color: #222;
-      margin-top: 20px;
+      font-size: 1.20rem;
+      font-weight: 600;
+      color: #fff;
+      margin-top: 18px;
       letter-spacing: 0.2px;
       text-align: center;
       user-select: none;
+      text-shadow: 0 1px 4px #0005;
     }
-    /* Icon styles */
-    .icon-mouse {
-      width: 64px; height: 64px;
+    .switcher-icon {
+      width: 54px;
+      height: 54px;
       display: block;
+      margin-bottom: 0px;
+      filter: drop-shadow(0 3px 10px #8a2be2aa);
     }
-    .icon-keyboard {
-      width: 64px; height: 64px;
-      display: block;
+    .switcher-box-outline {
+      position: absolute;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      border-radius: 12px;
+      pointer-events: none;
+      border: 2.5px solid rgba(138,43,226,0.6);
+      box-sizing: border-box;
+      opacity: 0.14;
+      z-index: 0;
     }
-    /* Nice focus for keyboard */
-    .switcher-option:focus {
-      border-color: #ff9800;
-      box-shadow: 0 0 0 3px #ff980044;
+    .menu-title {
+      position: absolute;
+      top: -34px;
+      left: 0; right: 0;
+      text-align: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 9px #8a2be260;
+      user-select: none;
     }
   </style>
 </head>
 <body>
-  <div class="switcher-box">
+  <div class="menu-title">Choose Control UI</div>
+  <div class="menu-wrapper" id="menuWrapper">
     <div class="switcher-option selected" id="mouseOption" tabindex="0">
-      <!-- Mouse SVG icon -->
-      <svg class="icon-mouse" viewBox="0 0 64 64" fill="none">
-        <circle cx="32" cy="36" r="20" stroke="#222" stroke-width="3"/>
-        <line x1="32" y1="36" x2="32" y2="56" stroke="#222" stroke-width="3"/>
-        <ellipse cx="32" cy="36" rx="9" ry="5" stroke="#222" stroke-width="2"/>
-        <path d="M15 16 Q35 0 55 25" stroke="#222" stroke-width="2" fill="none"/>
-      </svg>
+      <img class="switcher-icon" src="https://www.svgrepo.com/show/533144/mouse-alt-1.svg" alt="Mouse Icon">
       <div class="switcher-label">Mouse UI</div>
     </div>
     <div class="switcher-option" id="keyboardOption" tabindex="0">
-      <!-- Keyboard SVG icon -->
-      <svg class="icon-keyboard" viewBox="0 0 64 64" fill="none">
-        <rect x="8" y="28" width="48" height="24" rx="5" stroke="#222" stroke-width="3"/>
-        <!-- Rows of keys -->
-        <rect x="12" y="32" width="40" height="5" rx="2" fill="#222" />
-        <rect x="12" y="39" width="40" height="5" rx="2" fill="#222" />
-        <rect x="12" y="46" width="40" height="5" rx="2" fill="#222" />
-        <path d="M16 24 Q32 10 57 35" stroke="#222" stroke-width="2" fill="none"/>
-      </svg>
+      <img class="switcher-icon" src="https://www.svgrepo.com/show/533083/keyboard.svg" alt="Keyboard Icon">
       <div class="switcher-label">Keyboard UI</div>
     </div>
+    <div class="switcher-box-outline"></div>
   </div>
   <script>
     // UI logic: switching and execution
@@ -132,8 +140,11 @@
         updateSelection();
         e.preventDefault();
       }
-      if (e.key === 'Enter') {
+      if (e.key === 'Enter' || e.key === ' ') {
         executeSelected();
+      }
+      if (e.key === 'Escape') {
+        window.postMessage(JSON.stringify({action: "closeUi"}), "*"); // for closing
       }
     });
     // Mouse click selection
@@ -147,10 +158,8 @@
     // Execution logic (replace with your actual execution code)
     function executeSelected() {
       if (selectedIndex === 0) {
-        // Mouse UI selected
         window.postMessage(JSON.stringify({action: "executeMouseUI"}), "*");
       } else {
-        // Keyboard UI selected
         window.postMessage(JSON.stringify({action: "executeKeyboardUI"}), "*");
       }
     }
